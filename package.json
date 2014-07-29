@@ -1,0 +1,19 @@
+{
+  "name": "rediswalker",
+  "version": "0.0.0",
+  "description": "A walker that takes in a redis key (should be associated with a hash) and checks to see if all the values in that hash are stale up to a certain time",
+  "main": "crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "redis",
+    "walker",
+    "updater"
+  ],
+  "author": "Faiq",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "^0.11.0"
+  }
+}
