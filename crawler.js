@@ -36,6 +36,7 @@ Walker.prototype.startFollower = function (){
 
 Walker.prototype.addChange = function(change){ 
   var _this = this
+  _this.follow.pause()
   client.zscore(this.zKey, change, function(err, res){
     if (err){
       console.log('err ' + err)
@@ -49,9 +50,11 @@ Walker.prototype.addChange = function(change){
           return
         } 
         console.log('added ' + res + ' items.') 
+        _this.follow.resume()
       })
     }   
   }) 
+ 
 }
 
 function Walker(couchUrl, zKey){ 
