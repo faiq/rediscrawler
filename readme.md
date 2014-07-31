@@ -2,7 +2,7 @@
 ---
 
 ##Overview: 
-Redis walker is a quick utility to manage your a redis hash structure, to check if its contents are stale or not to a certain date. 
+
 
 ##What the structure should look like:  
 
@@ -15,13 +15,15 @@ Redis walker is a quick utility to manage your a redis hash structure, to check 
 	}
 ```
 
+The ```redisKey``` in this key should be associated with a redis sorted set. 
+
 ##How to use it: 
 
 1. Create a new instance of this walker with the appropriate params
+``` 
+var walker = new Walker(couchUrl, 
+``` 
 
-``` 
-var walker = new Walker(arrayOfObjNames, q, keyYouWantToStoreInRedis, optionalRedisDBNum, secsTillStale)
-``` 
 2. Daemonize the process, so it runs forever in the background
 3. Done! 
 
