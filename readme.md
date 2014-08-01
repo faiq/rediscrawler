@@ -21,7 +21,8 @@ The ```redisKey``` in this key should be associated with a redis sorted set.
 
 1. Create a new instance of this walker with the appropriate params
 ``` 
-var walker = new Walker(couchUrl, 
+var walker = new Walker(couchUrl, sortedSetKey); 
+
 ``` 
 
 2. Daemonize the process, so it runs forever in the background
