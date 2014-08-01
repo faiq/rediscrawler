@@ -4,7 +4,7 @@
   "description": "A listener that listens to couch db events and updates a redis key associated with a sortedset",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lab -vc tests/*.js"
   },
   "keywords": [
     "redis",
@@ -19,5 +19,8 @@
     "follow": "^0.11.2",
     "redis": "^0.11.0",
     "seq-file": "^1.0.2"
+  },
+  "devDependencies": {
+    "lab": "^3.2.1"
   }
 }

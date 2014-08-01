@@ -17,7 +17,7 @@ Couch2Redis.prototype.startFollower = function (){
   }  
   var _this = this
   this.follow = follow(settings, function(err, change){ 
-    if(err) console.log(err) 
+    if(err) console.error(err) 
     if (change.id){ 
       _this.addChange(change)
       _this.s.save(change.seq)     
@@ -49,6 +49,10 @@ Couch2Redis.prototype.addChange = function(change){
 }
 
 function Couch2Redis(couchUrl, zKey, sfPath){ 
+  if (!couchUrl || !zKey || !sfPath)
+    throw Error('You need a couchUrl, a key associated with a redis sortedset, and\n path for a sequence file')
+  if(sfPath.indexOf('.seq') === -1) 
+    throw Error('You need a .seq file for a sequence file') 
   this.couchUrl = couchUrl
   this.zKey = zKey
   this.s = new SF(sfPath)
