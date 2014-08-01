@@ -1,13 +1,14 @@
-' use strict '; 
+' use strict ';
  
 var redis = require('redis')
   , follow = require('follow')
+  , fs = require('fs') 
   , SF = require('seq-file')
   , client = redis.createClient()
 
 Couch2Redis.prototype.startFollower = function (){
   var couchUrl = this.couchUrl
-  since = this.since  
+  var since = this.since  
   var settings = 
   {
     db: couchUrl
@@ -51,13 +52,13 @@ function Couch2Redis(couchUrl, zKey, sfPath){
   this.couchUrl = couchUrl
   this.zKey = zKey
   this.s = new SF(sfPath)
-  
-  fs.exists(sfpath, function (exists) {
+  var _this = this  
+  fs.exists(sfPath, function (exists) {
     if (exists){
-      var data = fs.readFileSync(sfpath, 'ascii')
+      var data = fs.readFileSync(sfPath, 'ascii')
       _this.since = data 
     }else _this.since = 0 
-  });
+  })
 } 
 
 module.exports = Couch2Redis 
