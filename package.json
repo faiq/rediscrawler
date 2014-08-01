@@ -10,13 +10,14 @@
     "redis",
     "walker",
     "updater",
-    "couchdb", 
-    "follower" 
+    "couchdb",
+    "follower"
   ],
   "author": "Faiq",
   "license": "ISC",
   "dependencies": {
     "follow": "^0.11.2",
-    "redis": "^0.11.0"
+    "redis": "^0.11.0",
+    "seq-file": "^1.0.2"
   }
 }
