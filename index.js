@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 ' use strict ';
  
 var redis = require('redis')
@@ -18,6 +19,7 @@ Couch2Redis.prototype.startFollower = function (){
   var _this = this
   this.follow = follow(settings, function(err, change){ 
     if(err) console.error(err) 
+    console.log(change) 
     if (change.id){ 
       _this.addChange(change)
       _this.s.save(change.seq)     
@@ -66,3 +68,6 @@ function Couch2Redis(couchUrl, zKey, sfPath){
 } 
 
 module.exports = Couch2Redis 
+
+var c2r = new Couch2Redis('https://skimdb.npmjs.com/', 'packages', 'changes.seq') 
+c2r.startFollower()

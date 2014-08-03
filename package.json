@@ -21,6 +21,7 @@
     "seq-file": "^1.0.2"
   },
   "devDependencies": {
-    "lab": "^3.2.1"
+    "lab": "^3.2.1",
+    "sinon": "^1.10.3"
   }
 }
