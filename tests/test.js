@@ -1,7 +1,6 @@
 var lab = require('lab')
   , couch2redis = require('../index')
   , follow = require('follow') 
-  . sinon = require('sinon') 
   , exec = require('child_process').exec
   , experiment = lab.experiment
   , describe = lab.describe 
@@ -41,11 +40,8 @@ experiment('redis functionallity' , { timeout: 8000 },  function (){
     exec('redis-server', function (err, sto, ste){
       redis = require('redis')
       client = redis.createClient() 
+      done()
      }) 
-    sinon.stub(follow, 'follow', function(){
-      return 'yo'  
-     })  
-    done()  
   }) 
   it ('should put things on to redis on couch follow events', function (){
       var c2r = new couch2redis('skimdb.npmjs.com', 'packages', 'sequence.seq') 

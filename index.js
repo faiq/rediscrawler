@@ -8,7 +8,7 @@ var redis = require('redis')
   , path = require('path')
   , client = redis.createClient()
 
-Couch2Redis.prototype.startFollower = function (){
+Couch2Redis.prototype.startFollower = function (opts){
   var couchUrl = this.couchUrl
   var since = this.since  
   var _this = this 
@@ -20,7 +20,10 @@ Couch2Redis.prototype.startFollower = function (){
     , include_docs: true
   }  
   var _this = this
-  this.follow = follow(settings, function(err, change){ 
+  var followfunc 
+  if (opts && opts.follow) followfunc = opts.follow 
+  else followfunc = follow  
+  this.follow = followfunc(settings, function(err, change){ 
     if(err) console.error(err) 
     console.log(change) 
     if (change.id){ 
