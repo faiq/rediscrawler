@@ -5,15 +5,18 @@ var redis = require('redis')
   , follow = require('follow')
   , fs = require('fs') 
   , SF = require('seq-file')
+  , path = require('path')
   , client = redis.createClient()
 
 Couch2Redis.prototype.startFollower = function (){
   var couchUrl = this.couchUrl
   var since = this.since  
+  var _this = this 
+  console.log(since)
   var settings = 
   {
     db: couchUrl
-    , since: since     
+    , since: since   
     , include_docs: true
   }  
   var _this = this
@@ -43,10 +46,13 @@ Couch2Redis.prototype.addChange = function(change){
           return
         } 
         console.log('added ' + res + ' items.') 
-        
         _this.follow.resume()
       })
-    }  
+    }
+   else{ 
+    _this.follow.resume()
+    return 
+   } 
   }) 
 }
 
@@ -59,15 +65,17 @@ function Couch2Redis(couchUrl, zKey, sfPath){
   this.zKey = zKey
   this.s = new SF(sfPath)
   var _this = this  
-  fs.exists(sfPath, function (exists) {
-    if (exists){
-      var data = fs.readFileSync(sfPath, 'ascii')
+  if (fs.existsSync(sfPath)){ //, function (exists) {
+    //if (exists){
+      var data = fs.readFileSync(sfPath, 'UTF-8')
+      data = parseInt(data, 10)  
       _this.since = data 
-    }else _this.since = 0 
-  })
+  }else _this.since = 0 
+//  })
 } 
 
 module.exports = Couch2Redis 
-
-var c2r = new Couch2Redis('https://skimdb.npmjs.com/', 'packages', 'changes.seq') 
+var seq = path.join(__dirname, '/changes.seq') 
+console.log(seq) 
+var c2r = new Couch2Redis('https://skimdb.npmjs.com/registry', 'packages', seq) 
 c2r.startFollower()
