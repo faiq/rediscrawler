@@ -12,7 +12,6 @@ Couch2Redis.prototype.startFollower = function (opts){
   var couchUrl = this.couchUrl
   var since = this.since  
   var _this = this 
-  console.log(since)
   var settings = 
   {
     db: couchUrl
