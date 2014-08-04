@@ -74,7 +74,3 @@ function Couch2Redis(couchUrl, zKey, sfPath){
 } 
 
 module.exports = Couch2Redis 
-var seq = path.join(__dirname, '/changes.seq') 
-console.log(seq) 
-var c2r = new Couch2Redis('https://skimdb.npmjs.com/registry', 'packages', seq) 
-c2r.startFollower()
