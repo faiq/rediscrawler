@@ -46,7 +46,6 @@ Couch2Redis.prototype.addChange = function(change){
           console.error('err ' + err)
           return
         } 
-        console.log('added ' + res + ' items.') 
         _this.follow.resume()
       })
     }
