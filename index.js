@@ -23,7 +23,10 @@ Couch2Redis.prototype.startFollower = function (opts){
   if (opts && opts.follow) followfunc = opts.follow 
   else followfunc = follow  
   this.follow = followfunc(settings, function(err, change){ 
-    if(err) console.error(err) 
+    if(err){ 
+      console.error(err) 
+      return 
+   }
     if (change.id){ 
       _this.addChange(change)
       _this.s.save(change.seq)     
@@ -47,8 +50,7 @@ Couch2Redis.prototype.addChange = function(change){
         } 
         _this.follow.resume()
       })
-    }
-   else{ 
+    }else{ 
     _this.follow.resume()
     return 
    } 
