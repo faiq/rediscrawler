@@ -6,7 +6,7 @@ var redis = require('redis')
   , fs = require('fs') 
   , SF = require('seq-file')
   , path = require('path')
-  , client = redis.createClient()
+  , client = null 
 
 Couch2Redis.prototype.startFollower = function (opts){
   var couchUrl = this.couchUrl
@@ -57,11 +57,15 @@ Couch2Redis.prototype.addChange = function(change){
   }) 
 }
 
-function Couch2Redis(couchUrl, zKey, sfPath){ 
+function Couch2Redis(couchUrl, zKey, sfPath, opts){ 
   if (!couchUrl || !zKey || !sfPath)
     throw Error('You need a couchUrl, a key associated with a redis sortedset, and\n path for a sequence file')
   if(sfPath.indexOf('.seq') === -1) 
     throw Error('You need a .seq file for a sequence file') 
+  process.nextTick(function() {
+    if (opts && opts.client) client = opts.client
+    else client = redis.createClient() 
+  });
   this.couchUrl = couchUrl
   this.zKey = zKey
   this.s = new SF(sfPath)
