@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 ' use strict ';
  
-var redis = require('redis')
-  , follow = require('follow')
+var follow = require('follow')
   , fs = require('fs') 
   , SF = require('seq-file')
   , path = require('path')
   , client = null 
+  , redis = null 
 
 Couch2Redis.prototype.startFollower = function (opts){
   var couchUrl = this.couchUrl
@@ -68,9 +68,10 @@ function Couch2Redis(couchUrl, zKey, sfPath, opts){
     throw Error('You need a couchUrl, a key associated with a redis sortedset, and\n path for a sequence file')
   if(sfPath.indexOf('.seq') === -1) 
     throw Error('You need a .seq file for a sequence file') 
-  process.nextTick(function() {
-    if (opts && opts.client) client = opts.client
-    else client = redis.createClient() 
+  process.nextTick(function() {    
+    if (opts && opts.client) redis = require('fakeredis') 
+    else redis = require('redis')
+    client = redis.createClient() 
   });
   this.couchUrl = couchUrl
   this.zKey = zKey
