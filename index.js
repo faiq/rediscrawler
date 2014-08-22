@@ -36,25 +36,31 @@ Couch2Redis.prototype.startFollower = function (opts){
   
 Couch2Redis.prototype.addChange = function(change){ 
   var _this = this
-  _this.follow.pause()
-  client.zscore(this.zKey, change.id, function(err, res){
-    if (err){
-      console.error('err ' + err)
+  if (!client){ 
+    setTimeout(function (){ 
+      _this.addChange(change) 
+    }, 1500);
+  }else{  
+    _this.follow.pause()
+    client.zscore(this.zKey, change.id, function(err, res){
+      if (err){
+        console.error('err ' + err)
+        return 
+      }
+      if (!res){
+        client.zadd(_this.zKey, 0, change.id, function(err, res){
+          if(err){
+            console.error('err ' + err)
+            return
+          } 
+          _this.follow.resume()
+        })
+      }else{ 
+      _this.follow.resume()
       return 
-    }
-    if (!res){
-      client.zadd(_this.zKey, 0, change.id, function(err, res){
-        if(err){
-          console.error('err ' + err)
-          return
-        } 
-        _this.follow.resume()
-      })
-    }else{ 
-    _this.follow.resume()
-    return 
-   } 
-  }) 
+     } 
+    }) 
+  }
 }
 
 function Couch2Redis(couchUrl, zKey, sfPath, opts){ 
