@@ -1,6 +1,6 @@
 {
   "name": "couch2redis",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A listener that listens to couch db events and updates a redis key associated with a sortedset",
   "main": "index.js",
   "scripts": {
